@@ -70,8 +70,10 @@ const imageContainer = document.querySelector(".gallery")
 console.log(imageContainer);
 
 for (let i = 0; i < images.length; i++) {
-    imageContainer.innerHTML += `<li class="gallery-item">
-      <a class="gallery-link" href="large-image.jpg">
+  const li = document.createElement("li") 
+  li.classList.add ("gallery-item")
+    li.innerHTML = `
+      <a class="gallery-link">
         <img
           class="gallery-image"
           src="${images[i].preview}"
@@ -79,7 +81,13 @@ for (let i = 0; i < images.length; i++) {
           alt="${images[i].description}"
         />
       </a>
-    </li>` 
+    ` 
+  li.onclick = function () {
+    console.log(images[i].original);
+  }
+   imageContainer.appendChild(li)
     console.log (i);
 }
+
+
 
