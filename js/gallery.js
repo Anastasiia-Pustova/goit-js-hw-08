@@ -66,28 +66,43 @@ const images = [
 
   
 
-const imageContainer = document.querySelector(".gallery") 
-console.log(imageContainer);
+const galleryList = document.querySelector('.gallery');
+let markup = '';
 
-for (let i = 0; i < images.length; i++) {
-  const li = document.createElement("li") 
-  li.classList.add ("gallery-item")
-    li.innerHTML = `
-      <a class="gallery-link">
+images.forEach(image => {
+  
+  const { preview, original, description } = image;
+
+  markup += `
+    <li class="gallery-item">
+      <a class="gallery-link" href="${original}">
         <img
           class="gallery-image"
-          src="${images[i].preview}"
-          data-source="large-image.jpg"
-          alt="${images[i].description}"
+          src="${preview}"
+          data-source="${original}"
+          alt="${description}"
         />
       </a>
-    ` 
-  li.onclick = function () {
-    console.log(images[i].original);
+    </li>`;
+});
+
+galleryList.innerHTML = markup;
+
+galleryList.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  const target = event.target;
+
+  if (target.tagName !== 'IMG') {
+    return;
   }
-   imageContainer.appendChild(li)
-    console.log (i);
-}
 
+  const instance = basicLightbox.create(
+    `<img class="modal-image" src="${target.dataset.source}" />`,
+    {
+      className: 'backdrop',
+    }
+  );
 
-
+  instance.show();
+});
